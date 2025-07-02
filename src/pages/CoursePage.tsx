@@ -27,7 +27,11 @@ const CoursePage = () => {
         />
         
         <main className="flex-1 lg:ml-64">
-          <CourseContent activeSection={activeSection} courseId={courseId || 'web-development'} />
+          <CourseContent 
+            activeSection={activeSection} 
+            courseId={courseId || 'web-development'} 
+            onSectionChange={setActiveSection}
+          />
         </main>
       </div>
     </div>

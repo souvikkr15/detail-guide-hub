@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BookOpen, Code, ArrowRight, ArrowLeft, Copy, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 interface CourseContentProps {
   activeSection: string;
   courseId: string;
+  onSectionChange?: (section: string) => void;
 }
 
 const contentData: Record<string, Record<string, any>> = {
@@ -307,12 +307,157 @@ contract SimpleStorage {
   }
 };
 
-export const CourseContent = ({ activeSection, courseId }: CourseContentProps) => {
+const courseStructure: Record<string, any> = {
+  'web-development': [
+    {
+      title: 'Getting Started',
+      sections: [
+        { id: 'introduction', title: 'Introduction' },
+        { id: 'setup', title: 'Environment Setup' },
+        { id: 'basics', title: 'HTML Basics' },
+      ]
+    },
+    {
+      title: 'HTML Fundamentals',
+      sections: [
+        { id: 'html-elements', title: 'HTML Elements' },
+        { id: 'html-attributes', title: 'HTML Attributes' },
+        { id: 'html-forms', title: 'HTML Forms' },
+      ]
+    },
+    {
+      title: 'CSS Styling',
+      sections: [
+        { id: 'css-basics', title: 'CSS Basics' },
+        { id: 'css-selectors', title: 'CSS Selectors' },
+        { id: 'css-layout', title: 'CSS Layout' },
+      ]
+    },
+    {
+      title: 'JavaScript',
+      sections: [
+        { id: 'js-basics', title: 'JavaScript Basics' },
+        { id: 'js-dom', title: 'DOM Manipulation' },
+        { id: 'js-events', title: 'Event Handling' },
+      ]
+    },
+    {
+      title: 'Advanced Topics',
+      sections: [
+        { id: 'responsive', title: 'Responsive Design' },
+        { id: 'frameworks', title: 'CSS Frameworks' },
+        { id: 'deployment', title: 'Deployment' },
+      ]
+    }
+  ],
+  'generative-ai': [
+    {
+      title: 'AI Fundamentals',
+      sections: [
+        { id: 'ai-intro', title: 'What is AI?' },
+        { id: 'machine-learning', title: 'Machine Learning Basics' },
+        { id: 'neural-networks', title: 'Neural Networks' },
+      ]
+    },
+    {
+      title: 'Generative Models',
+      sections: [
+        { id: 'gpt-models', title: 'GPT & Language Models' },
+        { id: 'image-generation', title: 'Image Generation' },
+        { id: 'multimodal-ai', title: 'Multimodal AI' },
+      ]
+    },
+    {
+      title: 'Practical Applications',
+      sections: [
+        { id: 'prompt-engineering', title: 'Prompt Engineering' },
+        { id: 'ai-apis', title: 'Working with AI APIs' },
+        { id: 'building-apps', title: 'Building AI Apps' },
+      ]
+    }
+  ],
+  'data-structures': [
+    {
+      title: 'Basic Concepts',
+      sections: [
+        { id: 'ds-intro', title: 'Introduction to Data Structures' },
+        { id: 'complexity', title: 'Time & Space Complexity' },
+        { id: 'arrays', title: 'Arrays & Lists' },
+      ]
+    },
+    {
+      title: 'Linear Structures',
+      sections: [
+        { id: 'stacks', title: 'Stacks' },
+        { id: 'queues', title: 'Queues' },
+        { id: 'linked-lists', title: 'Linked Lists' },
+      ]
+    },
+    {
+      title: 'Non-Linear Structures',
+      sections: [
+        { id: 'trees', title: 'Trees' },
+        { id: 'graphs', title: 'Graphs' },
+        { id: 'hash-tables', title: 'Hash Tables' },
+      ]
+    },
+    {
+      title: 'Algorithms',
+      sections: [
+        { id: 'sorting', title: 'Sorting Algorithms' },
+        { id: 'searching', title: 'Searching Algorithms' },
+        { id: 'dynamic-programming', title: 'Dynamic Programming' },
+      ]
+    }
+  ],
+  'blockchain': [
+    {
+      title: 'Blockchain Basics',
+      sections: [
+        { id: 'blockchain-intro', title: 'What is Blockchain?' },
+        { id: 'cryptocurrency', title: 'Cryptocurrency Fundamentals' },
+        { id: 'consensus', title: 'Consensus Mechanisms' },
+      ]
+    },
+    {
+      title: 'Smart Contracts',
+      sections: [
+        { id: 'solidity', title: 'Solidity Programming' },
+        { id: 'ethereum', title: 'Ethereum Development' },
+        { id: 'dapps', title: 'Decentralized Apps' },
+      ]
+    },
+    {
+      title: 'Advanced Topics',
+      sections: [
+        { id: 'defi', title: 'DeFi Protocols' },
+        { id: 'nfts', title: 'NFTs & Digital Assets' },
+        { id: 'web3', title: 'Web3 Integration' },
+      ]
+    }
+  ]
+};
+
+export const CourseContent = ({ activeSection, courseId, onSectionChange }: CourseContentProps) => {
   const [copiedCode, setCopiedCode] = useState(false);
   const { toast } = useToast();
   
   const courseContent = contentData[courseId] || contentData['web-development'];
   const content = courseContent[activeSection] || courseContent[Object.keys(courseContent)[0]];
+  
+  // Get all sections in order for navigation
+  const currentCourseStructure = courseStructure[courseId] || courseStructure['web-development'];
+  const allSections = currentCourseStructure.flatMap((module: any) => module.sections);
+  const currentIndex = allSections.findIndex((section: any) => section.id === activeSection);
+  
+  const previousSection = currentIndex > 0 ? allSections[currentIndex - 1] : null;
+  const nextSection = currentIndex < allSections.length - 1 ? allSections[currentIndex + 1] : null;
+
+  const handleNavigation = (sectionId: string) => {
+    if (onSectionChange) {
+      onSectionChange(sectionId);
+    }
+  };
 
   const copyCode = async () => {
     try {
@@ -424,17 +569,28 @@ export const CourseContent = ({ activeSection, courseId }: CourseContentProps) =
 
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8 border-t border-gray-200">
-          <Button variant="outline" className="flex items-center space-x-2">
+          <Button 
+            variant="outline" 
+            className="flex items-center space-x-2"
+            onClick={() => previousSection && handleNavigation(previousSection.id)}
+            disabled={!previousSection}
+          >
             <ArrowLeft className="h-4 w-4" />
             <span>Previous</span>
           </Button>
           
           <div className="text-center">
             <p className="text-sm text-gray-500 mb-2">Continue Learning</p>
-            <p className="font-medium text-gray-900">Next Topic</p>
+            <p className="font-medium text-gray-900">
+              {nextSection ? nextSection.title : 'Course Complete!'}
+            </p>
           </div>
           
-          <Button className="flex items-center space-x-2 bg-green-600 hover:bg-green-700">
+          <Button 
+            className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
+            onClick={() => nextSection && handleNavigation(nextSection.id)}
+            disabled={!nextSection}
+          >
             <span>Next</span>
             <ArrowRight className="h-4 w-4" />
           </Button>
