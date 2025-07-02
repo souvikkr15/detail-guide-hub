@@ -1,11 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import { Sidebar } from '@/components/Sidebar';
+import { CourseContent } from '@/components/CourseContent';
+import { TopNav } from '@/components/TopNav';
 
 const Index = () => {
+  const [activeSection, setActiveSection] = useState('introduction');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50">
+      <TopNav 
+        onMenuClick={() => setSidebarOpen(!sidebarOpen)}
+        sidebarOpen={sidebarOpen}
+      />
+      
+      <div className="flex">
+        <Sidebar 
+          activeSection={activeSection}
+          onSectionChange={setActiveSection}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
+        
+        <main className="flex-1 lg:ml-64">
+          <CourseContent activeSection={activeSection} />
+        </main>
       </div>
     </div>
   );
