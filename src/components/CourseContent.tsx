@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { BookOpen, Play, Code, CheckCircle, ArrowRight, ArrowLeft, Copy } from 'lucide-react';
+import { BookOpen, Code, ArrowRight, ArrowLeft, Copy, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -18,13 +18,23 @@ const contentData: Record<string, Record<string, any>> = {
       title: 'Welcome to Web Development',
       description: 'Learn the fundamentals of modern web development from scratch.',
       content: {
-        overview: `Web development is the process of creating websites and web applications. In this comprehensive course, you'll learn HTML, CSS, and JavaScript - the three core technologies that power the modern web.`,
+        overview: `Web development is the process of creating websites and web applications that run on the internet. In this comprehensive course, you'll learn HTML, CSS, and JavaScript - the three core technologies that power the modern web.
+
+Modern web development involves creating responsive, interactive, and user-friendly websites. You'll start with the basics of HTML for structure, CSS for styling, and JavaScript for interactivity. By the end of this course, you'll be able to build complete web applications from scratch.
+
+Key topics we'll cover include:
+- HTML5 semantic elements and document structure
+- CSS3 styling, flexbox, and grid layouts
+- JavaScript ES6+ features and DOM manipulation
+- Responsive design principles
+- Modern development tools and workflows`,
         objectives: [
-          'Understand the structure of web pages using HTML',
-          'Style websites with CSS for beautiful designs',
-          'Add interactivity with JavaScript',
+          'Understand the structure of web pages using HTML5',
+          'Style websites with CSS3 for beautiful and responsive designs',
+          'Add interactivity with JavaScript and DOM manipulation',
           'Build responsive websites that work on all devices',
-          'Deploy your projects to the web'
+          'Use modern development tools and best practices',
+          'Deploy your projects to the web using various hosting platforms'
         ]
       },
       codeExample: `<!DOCTYPE html>
@@ -33,10 +43,34 @@ const contentData: Record<string, Record<string, any>> = {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My First Web Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .welcome {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>Welcome to web development!</p>
+    <div class="welcome">
+        <h1>Hello, World!</h1>
+        <p>Welcome to your web development journey!</p>
+        <button onclick="changeMessage()">Click me!</button>
+    </div>
+    
+    <script>
+        function changeMessage() {
+            alert('You just started your web development journey!');
+        }
+    </script>
 </body>
 </html>`
     }
@@ -46,29 +80,62 @@ const contentData: Record<string, Record<string, any>> = {
       title: 'Introduction to Generative AI',
       description: 'Understand the fundamentals of artificial intelligence and generative models.',
       content: {
-        overview: `Generative AI represents a revolutionary approach to artificial intelligence that can create new content, from text and images to code and music. This course will guide you through the exciting world of AI technologies.`,
+        overview: `Generative Artificial Intelligence represents one of the most exciting frontiers in technology today. Unlike traditional AI systems that classify or predict, generative AI creates new content - whether it's text, images, code, or even music.
+
+At its core, generative AI uses machine learning models trained on vast amounts of data to understand patterns and relationships. These models can then generate new, original content that resembles the training data but is entirely unique.
+
+The field has exploded with breakthrough technologies like:
+- Large Language Models (LLMs) such as GPT, Claude, and LLaMA
+- Image generation models like DALL-E, Midjourney, and Stable Diffusion  
+- Code generation tools like GitHub Copilot and CodeT5
+- Video and audio generation systems
+
+This course will take you from the fundamentals of AI to building your own generative applications, covering both the theory and practical implementation of these powerful technologies.`,
         objectives: [
-          'Understand the basics of artificial intelligence',
-          'Learn about different types of generative models',
-          'Explore real-world applications of AI',
-          'Build your first AI-powered application',
-          'Master prompt engineering techniques'
+          'Understand the fundamental concepts of artificial intelligence and machine learning',
+          'Learn about different types of generative models and their applications',
+          'Explore Large Language Models and how they work',
+          'Master prompt engineering techniques for better AI interactions',
+          'Build practical applications using AI APIs and tools',
+          'Understand the ethical implications and limitations of generative AI'
         ]
       },
       codeExample: `import openai
+from openai import OpenAI
 
 # Initialize OpenAI client
-client = openai.OpenAI(api_key="your-api-key")
+client = OpenAI(api_key="your-api-key-here")
 
-# Generate text with GPT
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": "Explain machine learning in simple terms"}
-    ]
-)
+def generate_creative_content(prompt, model="gpt-3.5-turbo"):
+    """
+    Generate creative content using OpenAI's GPT model
+    """
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "system", 
+                    "content": "You are a creative writing assistant that helps generate engaging content."
+                },
+                {
+                    "role": "user", 
+                    "content": prompt
+                }
+            ],
+            max_tokens=500,
+            temperature=0.7  # Controls creativity (0-1)
+        )
+        
+        return response.choices[0].message.content
+        
+    except Exception as e:
+        return f"Error generating content: {str(e)}"
 
-print(response.choices[0].message.content)`
+# Example usage
+prompt = "Write a short story about a robot learning to paint"
+story = generate_creative_content(prompt)
+print(story)`
     }
   },
   'data-structures': {
@@ -76,40 +143,75 @@ print(response.choices[0].message.content)`
       title: 'Introduction to Data Structures',
       description: 'Learn the fundamental building blocks of efficient programming.',
       content: {
-        overview: `Data structures are the foundation of computer science and programming. They provide efficient ways to organize, store, and manipulate data. Understanding data structures is crucial for writing efficient algorithms and solving complex problems.`,
+        overview: `Data structures are specialized formats for organizing, storing, and managing data in computer memory. They are the foundation of computer science and essential for writing efficient algorithms and solving complex programming problems.
+
+Think of data structures as different ways to organize information, just like how you might organize books on a shelf, files in a cabinet, or contacts in your phone. Each organization method has its strengths and is optimized for different types of operations.
+
+Understanding data structures is crucial because:
+- They directly impact the performance of your programs
+- They help you choose the right tool for each problem
+- They form the backbone of system design and architecture
+- They're essential for technical interviews and competitive programming
+
+We'll explore both linear data structures (arrays, lists, stacks, queues) and non-linear structures (trees, graphs, hash tables), learning when and how to use each one effectively.`,
         objectives: [
-          'Understand different types of data structures',
-          'Learn when to use each data structure',
-          'Analyze time and space complexity',
-          'Implement common data structures',
-          'Solve algorithmic problems efficiently'
+          'Understand what data structures are and why they matter',
+          'Learn to analyze time and space complexity (Big O notation)',
+          'Master fundamental linear data structures like arrays and linked lists', 
+          'Implement and use stacks and queues for problem-solving',
+          'Explore non-linear structures including trees and graphs',
+          'Choose appropriate data structures for different scenarios'
         ]
       },
       codeExample: `class Stack:
+    """
+    A simple stack implementation using Python lists
+    LIFO - Last In, First Out
+    """
     def __init__(self):
         self.items = []
     
     def push(self, item):
+        """Add an item to the top of the stack"""
         self.items.append(item)
+        print(f"Pushed {item} to stack")
     
     def pop(self):
+        """Remove and return the top item from the stack"""
         if not self.is_empty():
-            return self.items.pop()
-        return None
+            item = self.items.pop()
+            print(f"Popped {item} from stack")
+            return item
+        else:
+            print("Stack is empty!")
+            return None
     
     def peek(self):
+        """Return the top item without removing it"""
         if not self.is_empty():
             return self.items[-1]
         return None
     
     def is_empty(self):
+        """Check if the stack is empty"""
         return len(self.items) == 0
+    
+    def size(self):
+        """Return the number of items in the stack"""
+        return len(self.items)
 
-# Usage
+# Example usage
 stack = Stack()
 stack.push(1)
 stack.push(2)
-print(stack.pop())  # Output: 2`
+stack.push(3)
+
+print(f"Top item: {stack.peek()}")  # Output: 3
+print(f"Stack size: {stack.size()}")  # Output: 3
+
+# Pop all items
+while not stack.is_empty():
+    stack.pop()`
     }
   },
   'blockchain': {
@@ -117,34 +219,88 @@ print(stack.pop())  # Output: 2`
       title: 'Introduction to Blockchain Technology',
       description: 'Discover the revolutionary technology behind cryptocurrencies and Web3.',
       content: {
-        overview: `Blockchain is a distributed ledger technology that maintains a continuously growing list of records, called blocks, which are linked and secured using cryptography. This technology forms the backbone of cryptocurrencies and decentralized applications.`,
+        overview: `Blockchain is a revolutionary distributed ledger technology that maintains a continuously growing list of records, called blocks, which are linked and secured using cryptography. Think of it as a digital ledger that's shared across multiple computers, making it nearly impossible to hack or manipulate.
+
+Unlike traditional databases controlled by a single entity, blockchain operates on a decentralized network where multiple participants (nodes) maintain copies of the same ledger. This creates a system that's transparent, secure, and resistant to censorship.
+
+Key characteristics of blockchain include:
+- Decentralization: No single point of control or failure
+- Immutability: Once data is recorded, it's extremely difficult to change
+- Transparency: All transactions are visible to network participants
+- Security: Cryptographic hashing and consensus mechanisms protect the data
+- Trust: The system enables trust between parties without intermediaries
+
+This technology powers cryptocurrencies like Bitcoin and Ethereum, but its applications extend far beyond digital money to include supply chain management, digital identity, smart contracts, and decentralized applications (DApps).`,
         objectives: [
-          'Understand blockchain fundamentals',
-          'Learn about cryptocurrency and digital assets',
-          'Explore smart contracts and DApps',
-          'Build blockchain applications',
-          'Understand Web3 and decentralized finance'
+          'Understand the fundamental concepts of blockchain technology',
+          'Learn how cryptographic hashing secures blockchain data',
+          'Explore different consensus mechanisms (Proof of Work, Proof of Stake)',
+          'Understand cryptocurrencies and digital assets',
+          'Introduction to smart contracts and their applications',
+          'Explore real-world use cases beyond cryptocurrency'
         ]
       },
       codeExample: `pragma solidity ^0.8.0;
 
+/**
+ * Simple Smart Contract demonstrating basic blockchain concepts
+ * This contract stores and manages user data on the Ethereum blockchain
+ */
 contract SimpleStorage {
+    // State variables stored on the blockchain
     uint256 private storedData;
+    address public owner;
+    mapping(address => uint256) public userBalances;
     
-    event DataStored(uint256 indexed value, address indexed sender);
+    // Events for logging blockchain activities
+    event DataStored(uint256 indexed value, address indexed sender, uint256 timestamp);
+    event BalanceUpdated(address indexed user, uint256 newBalance);
     
-    function set(uint256 x) public {
-        storedData = x;
-        emit DataStored(x, msg.sender);
+    // Constructor runs once when contract is deployed
+    constructor() {
+        owner = msg.sender;
+        storedData = 0;
     }
     
+    // Modifier to restrict access to owner only
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
+    
+    /**
+     * Store a value on the blockchain
+     * This function costs gas to execute
+     */
+    function set(uint256 x) public {
+        storedData = x;
+        userBalances[msg.sender] += 1; // Reward user for storing data
+        
+        emit DataStored(x, msg.sender, block.timestamp);
+        emit BalanceUpdated(msg.sender, userBalances[msg.sender]);
+    }
+    
+    /**
+     * Retrieve the stored value
+     * This is a view function (read-only, no gas cost)
+     */
     function get() public view returns (uint256) {
         return storedData;
     }
     
+    /**
+     * Increment the stored value by 1
+     */
     function increment() public {
         storedData += 1;
-        emit DataStored(storedData, msg.sender);
+        emit DataStored(storedData, msg.sender, block.timestamp);
+    }
+    
+    /**
+     * Get user's balance (number of times they've stored data)
+     */
+    function getMyBalance() public view returns (uint256) {
+        return userBalances[msg.sender];
     }
 }`
     }
@@ -193,22 +349,27 @@ export const CourseContent = ({ activeSection, courseId }: CourseContentProps) =
       {/* Main Content */}
       <div className="space-y-8">
         <Tabs defaultValue="learn" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="learn">Learn</TabsTrigger>
-            <TabsTrigger value="practice">Practice</TabsTrigger>
-            <TabsTrigger value="examples">Examples</TabsTrigger>
+            <TabsTrigger value="examples">Code Examples</TabsTrigger>
           </TabsList>
           
           <TabsContent value="learn" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Play className="h-5 w-5 text-green-600" />
+                  <BookOpen className="h-5 w-5 text-green-600" />
                   <span>Overview</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 leading-relaxed">{content.content.overview}</p>
+                <div className="prose prose-gray max-w-none">
+                  {content.content.overview.split('\n\n').map((paragraph: string, index: number) => (
+                    <p key={index} className="text-gray-700 leading-relaxed mb-4">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </CardContent>
             </Card>
 
@@ -218,9 +379,9 @@ export const CourseContent = ({ activeSection, courseId }: CourseContentProps) =
                   <CardTitle>Learning Objectives</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     {content.content.objectives.map((objective: string, index: number) => (
-                      <li key={index} className="flex items-start space-x-2">
+                      <li key={index} className="flex items-start space-x-3">
                         <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700">{objective}</span>
                       </li>
@@ -229,38 +390,6 @@ export const CourseContent = ({ activeSection, courseId }: CourseContentProps) =
                 </CardContent>
               </Card>
             )}
-          </TabsContent>
-
-          <TabsContent value="practice" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Interactive Exercise</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-yellow-800 mb-2">Practice Challenge</h4>
-                  <p className="text-yellow-700">
-                    Try modifying the code example below. Add your own content and see how it changes the output!
-                  </p>
-                </div>
-                <div className="bg-gray-900 rounded-lg p-4 relative">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-400 text-sm">Practice Area</span>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={copyCode}
-                      className="text-gray-400 hover:text-white"
-                    >
-                      {copiedCode ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                  <pre className="text-green-400 text-sm overflow-x-auto">
-                    <code>{content.codeExample}</code>
-                  </pre>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           <TabsContent value="examples" className="space-y-6">
@@ -274,7 +403,7 @@ export const CourseContent = ({ activeSection, courseId }: CourseContentProps) =
               <CardContent>
                 <div className="bg-gray-900 rounded-lg p-4 relative">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-400 text-sm">Code Example</span>
+                    <span className="text-gray-400 text-sm">Example Code</span>
                     <Button
                       size="sm"
                       variant="ghost"
