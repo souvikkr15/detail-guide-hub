@@ -21,10 +21,11 @@ const Index = () => {
           onSectionChange={setActiveSection}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          courseId="web-development"
         />
         
         <main className="flex-1 lg:ml-64">
-          <CourseContent activeSection={activeSection} />
+          <CourseContent activeSection={activeSection} courseId="web-development" />
         </main>
       </div>
     </div>
