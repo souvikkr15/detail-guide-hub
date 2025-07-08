@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { BookOpen, Users, Award, ArrowRight, Code, Brain, Database, Link, Star, Clock, TrendingUp } from 'lucide-react';
+import { BookOpen, Users, Award, ArrowRight, Code, Brain, Database, Link, Star, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,9 +12,9 @@ const courses = [
     description: 'Learn HTML, CSS, JavaScript, and modern frameworks to build stunning websites and web applications.',
     icon: Code,
     color: 'bg-blue-500',
-    students: '15,432',
-    lessons: 45,
-    duration: '12 weeks',
+    // students: '15,432',
+    // lessons: 45,
+    // duration: '12 weeks',
     level: 'Beginner to Advanced',
     rating: 4.8
   },
@@ -25,9 +24,9 @@ const courses = [
     description: 'Master AI technologies including ChatGPT, DALL-E, and learn to build AI-powered applications.',
     icon: Brain,
     color: 'bg-purple-500',
-    students: '8,721',
-    lessons: 32,
-    duration: '8 weeks',
+    // students: '8,721',
+    // lessons: 32,
+    // duration: '8 weeks',
     level: 'Intermediate',
     rating: 4.9
   },
@@ -37,9 +36,9 @@ const courses = [
     description: 'Build strong programming foundations with essential data structures and algorithmic thinking.',
     icon: Database,
     color: 'bg-green-500',
-    students: '12,156',
-    lessons: 38,
-    duration: '10 weeks',
+    // students: '12,156',
+    // lessons: 38,
+    // duration: '10 weeks',
     level: 'Beginner to Intermediate',
     rating: 4.7
   },
@@ -49,9 +48,9 @@ const courses = [
     description: 'Explore cryptocurrency, smart contracts, and decentralized applications on various blockchain platforms.',
     icon: Link,
     color: 'bg-orange-500',
-    students: '6,543',
-    lessons: 28,
-    duration: '6 weeks',
+    // students: '6,543',
+    // lessons: 28,
+    // duration: '6 weeks',
     level: 'Advanced',
     rating: 4.6
   }
@@ -82,13 +81,6 @@ const features = [
     description: 'Track your progress and see measurable improvements in your technical skills.',
     gradient: 'from-orange-500 to-red-500'
   }
-];
-
-const stats = [
-  { number: '50,000+', label: 'Active Learners' },
-  { number: '95%', label: 'Success Rate' },
-  { number: '200+', label: 'Expert Instructors' },
-  { number: '1M+', label: 'Lines of Code Written' }
 ];
 
 export const LandingPage = () => {
@@ -125,7 +117,6 @@ export const LandingPage = () => {
 
           <div className="hidden md:flex items-center space-x-6">
             <Button variant="ghost" onClick={handleViewCourses}>Courses</Button>
-            <Button variant="ghost">About</Button>
             <Button onClick={handleStartLearning} className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
               Start Learning
             </Button>
@@ -134,53 +125,65 @@ export const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-blue-50 to-purple-50"></div>
-        <div className="relative max-w-7xl mx-auto px-4 py-24">
-          <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-6 bg-green-100 text-green-800 border-green-200 px-4 py-2">
-              🚀 Join 50,000+ learners worldwide
+      <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 py-20">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between px-4 gap-12">
+          {/* Left: Text Content */}
+          <div className="flex-1 text-center lg:text-left">
+            <Badge className="mb-6 bg-green-100 text-green-800 border-green-200 px-4 py-2 text-base font-medium">
+              🚀 Launch Your Tech Career in 30 Days
             </Badge>
-            <h1 className="text-6xl font-bold mb-8 leading-tight">
-              Master the 
-              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent"> Future </span>
-              of Technology
+            <h1 className="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight">
+              Master <span className="text-green-700">DSA</span> and <span className="text-green-700">Full Stack Development</span><br />
+              in Just <span className="text-green-700">30 Days</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-12 leading-relaxed max-w-3xl mx-auto">
-              Transform your career with our comprehensive courses in Web Development, AI, Data Structures, 
-              and Blockchain. Learn from industry experts and build real-world projects.
+            <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0">
+              Zero fluff. One roadmap. Your path to becoming a complete developer starts now.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8">
               <Button 
                 size="lg" 
                 onClick={handleStartLearning}
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-lg px-8 py-6 rounded-xl"
+                className="bg-green-700 hover:bg-green-800 text-lg px-8 py-6 rounded-xl font-semibold flex items-center gap-2"
               >
-                Start Your Journey <ArrowRight className="ml-2" />
+                🚀 Get Started Free
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 onClick={handleViewCourses}
-                className="text-lg px-8 py-6 rounded-xl border-2"
+                className="text-lg px-8 py-6 rounded-xl border-2 font-semibold flex items-center gap-2"
               >
-                Explore Courses
+                <Code className="h-5 w-5" /> See Roadmap
               </Button>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
+          {/* Right: Code Card */}
+          <div className="flex-1 flex justify-center lg:justify-end mt-12 lg:mt-0">
+            <div className="bg-[#181f2a] rounded-2xl shadow-2xl p-0 w-full max-w-md text-left relative border border-gray-800">
+              {/* VS Code style top bar */}
+              <div className="flex items-center gap-2 px-4 py-2 bg-[#232b3a] rounded-t-2xl border-b border-gray-700">
+                <span className="w-3 h-3 rounded-full bg-red-400"></span>
+                <span className="w-3 h-3 rounded-full bg-yellow-400"></span>
+                <span className="w-3 h-3 rounded-full bg-green-400"></span>
+                <span className="ml-2 text-xs text-gray-400 font-mono">VS Code + LeetCode</span>
               </div>
-            ))}
+              {/* Code content */}
+              <div className="px-6 pt-4 pb-2">
+                <pre className="font-mono text-green-400 text-sm leading-relaxed mb-2 bg-transparent p-0">
+{`// Day 1: Binary Search + React Setup
+function binarySearch(arr, target) {
+  return recursiveSearch(arr, 0, arr.length-1, target);
+}
+`}
+                </pre>
+                <span className="block text-yellow-400 text-xs font-mono mb-2">// Building TodoApp with optimized search...</span>
+              </div>
+              {/* Project deployed banner */}
+              <div className="bg-gradient-to-r from-green-600 to-blue-600 rounded-b-2xl px-4 py-3 flex items-center gap-2 border-t border-gray-700">
+                <span className="text-white font-semibold text-base">✅ Project Deployed</span><br/>
+                <span className="text-white text-xs">Portfolio + 150 DSA Problems Solved</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -248,17 +251,17 @@ export const LandingPage = () => {
                   <div className="space-y-2 text-sm text-gray-500">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center">
-                        <Users className="h-4 w-4 mr-1" />
-                        {course.students}
+                        {/* <Users className="h-4 w-4 mr-1" />
+                        {course.students} */}
                       </span>
                       <span className="flex items-center">
-                        <Clock className="h-4 w-4 mr-1" />
-                        {course.duration}
+                        {/* <Clock className="h-4 w-4 mr-1" />
+                        {course.duration} */}
                       </span>
                     </div>
-                    <div className="flex justify-between">
+                    {/* <div className="flex justify-between">
                       <span>{course.lessons} lessons</span>
-                    </div>
+                    </div> */}
                   </div>
                   <Button className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 mt-4">
                     Start Course <ArrowRight className="ml-2 h-4 w-4" />
@@ -303,7 +306,7 @@ export const LandingPage = () => {
               </div>
             </div>
             <div className="text-center md:text-right">
-              <p className="text-gray-400 mb-2">&copy; 2024 LearnHub. All rights reserved.</p>
+              <p className="text-gray-400 mb-2">&copy; 2025 LearnHub. All rights reserved.</p>
               <p className="text-gray-500 text-sm">Building the future, one developer at a time.</p>
             </div>
           </div>
