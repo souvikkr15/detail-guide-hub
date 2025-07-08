@@ -39,13 +39,13 @@ export const Sidebar = ({ activeSection, onSectionChange, isOpen, onClose, cours
       
       {/* Sidebar */}
       <aside className={cn(
-        "fixed top-16 left-0 z-40 w-64 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "fixed top-16 left-0 z-40 w-64 h-[calc(100vh-4rem)] bg-background border-r border-border transform transition-transform duration-300 ease-in-out lg:translate-x-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex flex-col h-full">
           {/* Close button for mobile */}
-          <div className="flex items-center justify-between p-4 border-b lg:hidden">
-            <h2 className="font-semibold text-gray-900">Course Content</h2>
+          <div className="flex items-center justify-between p-4 border-b border-border lg:hidden">
+            <h2 className="font-semibold text-foreground">Course Content</h2>
             <Button variant="ghost" size="sm" onClick={onClose}>
               <X className="h-4 w-4" />
             </Button>
@@ -56,7 +56,7 @@ export const Sidebar = ({ activeSection, onSectionChange, isOpen, onClose, cours
             <div className="p-2">
               {currentCourseData.map((module: any, moduleIndex: number) => (
                 <div key={moduleIndex} className="mb-4">
-                  <h3 className="px-3 py-2 text-sm font-semibold text-gray-900 bg-gray-100 rounded-md mb-2">
+                  <h3 className="px-3 py-2 text-sm font-semibold text-foreground bg-muted rounded-md mb-2">
                     {module.title}
                   </h3>
                   <div className="space-y-1">
@@ -70,12 +70,12 @@ export const Sidebar = ({ activeSection, onSectionChange, isOpen, onClose, cours
                         className={cn(
                           "w-full flex items-center space-x-3 px-3 py-2 text-sm rounded-md transition-colors text-left",
                           activeSection === section.id
-                            ? "bg-green-100 text-green-800 border-r-2 border-green-600"
-                            : "text-gray-700 hover:bg-gray-100"
+                            ? "bg-accent text-accent-foreground border-r-2 border-primary"
+                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                         )}
                       >
                         <span className="flex-1">{section.title}</span>
-                        <ChevronRight className="h-3 w-3 text-gray-400" />
+                        <ChevronRight className="h-3 w-3 text-muted-foreground" />
                       </button>
                     ))}
                   </div>

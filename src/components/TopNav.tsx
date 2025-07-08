@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ThemeToggle } from './ThemeToggle';
 
 interface TopNavProps {
   onMenuClick: () => void;
@@ -18,7 +19,8 @@ const courses = [
   { id: 'web-development', title: 'Web Development' },
   { id: 'generative-ai', title: 'Generative AI' },
   { id: 'data-structures', title: 'Data Structures & Algorithms' },
-  { id: 'blockchain', title: 'Blockchain Development' }
+  { id: 'blockchain', title: 'Blockchain Development' },
+  { id: 'compiler', title: 'Code Compiler' }
 ];
 
 export const TopNav = ({ onMenuClick, sidebarOpen }: TopNavProps) => {
@@ -29,11 +31,15 @@ export const TopNav = ({ onMenuClick, sidebarOpen }: TopNavProps) => {
   };
 
   const handleCourseSelect = (courseId: string) => {
-    navigate(`/course/${courseId}`);
+    if (courseId === 'compiler') {
+      navigate('/compiler');
+    } else {
+      navigate(`/course/${courseId}`);
+    }
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-50">
+    <nav className="bg-background border-b border-border px-4 py-3 sticky top-0 z-50">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Button
@@ -50,13 +56,14 @@ export const TopNav = ({ onMenuClick, sidebarOpen }: TopNavProps) => {
               <BookOpen className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">LearnHub</h1>
-              <p className="text-xs text-gray-500">Master Technology Skills</p>
+              <h1 className="text-xl font-bold text-foreground">LearnHub</h1>
+              <p className="text-xs text-muted-foreground">Master Technology Skills</p>
             </div>
           </div>
         </div>
 
         <div className="flex items-center space-x-4">
+          <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="flex items-center space-x-2">
@@ -64,12 +71,12 @@ export const TopNav = ({ onMenuClick, sidebarOpen }: TopNavProps) => {
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
+            <DropdownMenuContent align="end" className="w-56 bg-popover border border-border shadow-lg">
               {courses.map((course) => (
                 <DropdownMenuItem
                   key={course.id}
                   onClick={() => handleCourseSelect(course.id)}
-                  className="cursor-pointer hover:bg-gray-50 p-3"
+                  className="cursor-pointer hover:bg-accent p-3"
                 >
                   {course.title}
                 </DropdownMenuItem>
