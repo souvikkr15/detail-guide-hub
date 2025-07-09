@@ -32,29 +32,55 @@ export const CodeCompiler = () => {
     setIsRunning(true);
     setOutput('');
 
-    // Simulate code execution (in a real app, you'd call a backend API)
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Mock different outputs based on language
-      const mockOutputs = {
-        python: 'Hello, World!\n',
-        javascript: 'Hello, World!\n',
-        java: 'Hello, World!\n',
-        cpp: 'Hello, World!\n',
-        c: 'Hello, World!\n'
-      };
+      if (selectedLanguage === 'javascript') {
+        // Execute JavaScript code directly
+        const originalConsoleLog = console.log;
+        const outputs: string[] = [];
+        
+        // Override console.log to capture output
+        console.log = (...args: any[]) => {
+          outputs.push(args.map(arg => 
+            typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+          ).join(' '));
+        };
 
-      if (code.includes('error') || code.includes('Error')) {
-        setOutput('Error: Compilation failed\nLine 1: Syntax error');
+        try {
+          // Execute the JavaScript code
+          const result = eval(code);
+          
+          // If there's a return value, add it to output
+          if (result !== undefined) {
+            outputs.push(String(result));
+          }
+          
+          setOutput(outputs.length > 0 ? outputs.join('\n') + '\n' : 'Code executed successfully (no output)');
+          
+          toast({
+            title: "Code executed",
+            description: "JavaScript code executed successfully.",
+          });
+        } catch (error) {
+          setOutput(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          toast({
+            title: "Execution failed",
+            description: "There was an error executing your JavaScript code.",
+            variant: "destructive",
+          });
+        } finally {
+          // Restore original console.log
+          console.log = originalConsoleLog;
+        }
       } else {
-        setOutput(mockOutputs[selectedLanguage as keyof typeof mockOutputs] || 'Output will appear here...');
+        // For other languages, show a message about limitations
+        setOutput(`Note: ${languages.find(l => l.value === selectedLanguage)?.label} execution requires a backend server.\nThis demo only supports JavaScript execution in the browser.\n\nTo run ${languages.find(l => l.value === selectedLanguage)?.label} code, you would need:\n- A backend API with ${languages.find(l => l.value === selectedLanguage)?.label} compiler/interpreter\n- Secure sandboxed execution environment\n- API integration for code submission and result retrieval`);
+        
+        toast({
+          title: "Language not supported",
+          description: `${languages.find(l => l.value === selectedLanguage)?.label} execution requires a backend server.`,
+          variant: "destructive",
+        });
       }
-
-      toast({
-        title: "Code executed",
-        description: "Your code has been compiled and executed successfully.",
-      });
     } catch (error) {
       setOutput('Error: Failed to execute code');
       toast({
@@ -176,9 +202,9 @@ export const CodeCompiler = () => {
       <Card className="bg-muted/50">
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground">
-            <strong>Note:</strong> This is a demo compiler. In a production environment, 
-            code would be executed on a secure backend server. Currently showing mock results 
-            for demonstration purposes.
+            <strong>Note:</strong> This compiler currently supports JavaScript execution in the browser. 
+            Other languages (Python, Java, C++, C) require a backend server with appropriate 
+            compilers/interpreters for secure execution.
           </p>
         </CardContent>
       </Card>
