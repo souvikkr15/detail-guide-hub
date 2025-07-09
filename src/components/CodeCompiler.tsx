@@ -136,7 +136,7 @@ export const CodeCompiler = () => {
               <Button 
                 onClick={handleRunCode} 
                 disabled={isRunning}
-                className="bg-green-600 hover:bg-green-700"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 {isRunning ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
