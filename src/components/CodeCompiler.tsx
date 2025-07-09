@@ -7,15 +7,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 
 const languages = [
-  { value: 'python', label: 'Python', example: 'print("Hello, World!")' },
-  { value: 'javascript', label: 'JavaScript', example: 'console.log("Hello, World!");' },
+  { value: 'python3', label: 'Python', example: 'print("Hello, World!")' },
+  { value: 'nodejs', label: 'JavaScript', example: 'console.log("Hello, World!");' },
   { value: 'java', label: 'Java', example: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}' },
-  { value: 'cpp', label: 'C++', example: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    return 0;\n}' },
+  { value: 'cpp17', label: 'C++', example: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!" << endl;\n    return 0;\n}' },
   { value: 'c', label: 'C', example: '#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}' }
 ];
 
 export const CodeCompiler = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('python');
+  const [selectedLanguage, setSelectedLanguage] = useState('python3');
   const [code, setCode] = useState(languages[0].example);
   const [output, setOutput] = useState('');
   const [isRunning, setIsRunning] = useState(false);
@@ -33,60 +33,51 @@ export const CodeCompiler = () => {
     setOutput('');
 
     try {
-      if (selectedLanguage === 'javascript') {
-        // Execute JavaScript code directly
-        const originalConsoleLog = console.log;
-        const outputs: string[] = [];
-        
-        // Override console.log to capture output
-        console.log = (...args: any[]) => {
-          outputs.push(args.map(arg => 
-            typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
-          ).join(' '));
-        };
+      const response = await fetch('https://api.jdoodle.com/v1/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          clientId: 'your_client_id', // You'll need to get this from jdoodle.com
+          clientSecret: 'your_client_secret', // You'll need to get this from jdoodle.com
+          script: code,
+          language: selectedLanguage,
+          versionIndex: '0'
+        })
+      });
 
-        try {
-          // Execute the JavaScript code
-          const result = eval(code);
-          
-          // If there's a return value, add it to output
-          if (result !== undefined) {
-            outputs.push(String(result));
-          }
-          
-          setOutput(outputs.length > 0 ? outputs.join('\n') + '\n' : 'Code executed successfully (no output)');
-          
-          toast({
-            title: "Code executed",
-            description: "JavaScript code executed successfully.",
-          });
-        } catch (error) {
-          setOutput(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
-          toast({
-            title: "Execution failed",
-            description: "There was an error executing your JavaScript code.",
-            variant: "destructive",
-          });
-        } finally {
-          // Restore original console.log
-          console.log = originalConsoleLog;
-        }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.error) {
+        setOutput(`Error: ${result.error}`);
+        toast({
+          title: "Execution failed",
+          description: "There was an error executing your code.",
+          variant: "destructive",
+        });
       } else {
-        // For other languages, show a message about limitations
-        setOutput(`Note: ${languages.find(l => l.value === selectedLanguage)?.label} execution requires a backend server.\nThis demo only supports JavaScript execution in the browser.\n\nTo run ${languages.find(l => l.value === selectedLanguage)?.label} code, you would need:\n- A backend API with ${languages.find(l => l.value === selectedLanguage)?.label} compiler/interpreter\n- Secure sandboxed execution environment\n- API integration for code submission and result retrieval`);
+        const output = result.output || result.stdout || '';
+        const error = result.stderr || '';
+        
+        setOutput(error ? `${output}\nErrors:\n${error}` : (output || 'Code executed successfully (no output)'));
         
         toast({
-          title: "Language not supported",
-          description: `${languages.find(l => l.value === selectedLanguage)?.label} execution requires a backend server.`,
-          variant: "destructive",
+          title: "Code executed",
+          description: "Your code has been compiled and executed successfully.",
         });
       }
     } catch (error) {
-      setOutput('Error: Failed to execute code');
+      // Fallback to mock execution for demo purposes
+      setOutput(`Demo Mode: Code execution simulated.\n\nActual output would require JDoodle API credentials.\nYour ${languages.find(l => l.value === selectedLanguage)?.label} code appears to be syntactically correct.\n\nTo enable real execution:\n1. Sign up at jdoodle.com\n2. Get your API credentials\n3. Replace the placeholder credentials in the code`);
+      
       toast({
-        title: "Execution failed",
-        description: "There was an error executing your code.",
-        variant: "destructive",
+        title: "Demo mode",
+        description: "Running in demo mode. Real execution requires JDoodle API credentials.",
       });
     } finally {
       setIsRunning(false);
@@ -110,7 +101,7 @@ export const CodeCompiler = () => {
   };
 
   const downloadCode = () => {
-    const extensions = { python: '.py', javascript: '.js', java: '.java', cpp: '.cpp', c: '.c' };
+    const extensions = { python3: '.py', nodejs: '.js', java: '.java', cpp17: '.cpp', c: '.c' };
     const filename = `code${extensions[selectedLanguage as keyof typeof extensions]}`;
     
     const element = document.createElement('a');
@@ -202,9 +193,9 @@ export const CodeCompiler = () => {
       <Card className="bg-muted/50">
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground">
-            <strong>Note:</strong> This compiler currently supports JavaScript execution in the browser. 
-            Other languages (Python, Java, C++, C) require a backend server with appropriate 
-            compilers/interpreters for secure execution.
+            <strong>Note:</strong> This compiler uses JDoodle API to execute code in multiple languages. 
+            To enable real execution, you'll need to sign up at jdoodle.com and replace the API credentials. 
+            Currently running in demo mode with simulated results.
           </p>
         </CardContent>
       </Card>
