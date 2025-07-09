@@ -39,8 +39,8 @@ export const CodeCompiler = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          clientId: 'aafc730d65c72289eadeef4ad66d3138', // You'll need to get this from jdoodle.com
-          clientSecret: '926f2324a7b3f239688acc6642cad01e716c581e96ab416be0dbd005bdbb854e', // You'll need to get this from jdoodle.com
+          clientId: aafc730d65c72289eadeef4ad66d3138, // You'll need to get this from jdoodle.com
+          clientSecret: 926f2324a7b3f239688acc6642cad01e716c581e96ab416be0dbd005bdbb854e, // You'll need to get this from jdoodle.com
           script: code,
           language: selectedLanguage,
           versionIndex: '0'
