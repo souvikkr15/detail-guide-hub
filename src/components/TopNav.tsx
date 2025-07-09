@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, BookOpen, ChevronDown } from 'lucide-react';
+import { Menu, BookOpen, ChevronDown, Code } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -63,6 +63,15 @@ export const TopNav = ({ onMenuClick, sidebarOpen }: TopNavProps) => {
         </div>
 
         <div className="flex items-center space-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/compiler')}
+            className="flex items-center space-x-2"
+          >
+            <Code className="h-4 w-4" />
+            <span className="hidden sm:inline">IDE</span>
+          </Button>
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
